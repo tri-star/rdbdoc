@@ -1,0 +1,10 @@
+{
+    "name": "urban/dbdg",
+    "description": "Database definition generator.",
+    "type": "tool",
+    "license": "MIT",
+    "php": "5.3",
+    "require": {
+        "symfony/console": "^3.1"
+    }
+}
