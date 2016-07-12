@@ -1,0 +1,17 @@
+version: '2'
+services:
+  db:
+    container_name: dbdg_db
+    image: mysql:5.6
+    expose:
+      - 3306
+    ports:
+      - "13307:3306"
+    volumes:
+      - dbdg-db-data:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+
+volumes:
+  dbdg-db-data:
+    driver: local
