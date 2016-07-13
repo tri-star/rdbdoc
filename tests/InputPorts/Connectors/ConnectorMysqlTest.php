@@ -13,13 +13,13 @@ class ConnectorMysqlTest extends PHPUnit_Framework_TestCase {
         $connector = new ConnectorMysql();
         $connector->init(array(
             'host' => '127.0.0.1',
-            'port' => '13306',
+            'port' => '13307',
             'user' => 'root',
-            'pass' => 'root',
+            'pass' => '',
             'db' => 'test',
         ));
 
-        $result = $connector->getTables('test');
+        $result = $connector->getColumns('test', 'a');
         var_export($result);
     }
 

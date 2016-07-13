@@ -11,6 +11,6 @@ interface ConnectorInterface {
     public function getTables($databaseName);
 
 
-    public function getColumns($tableName);
+    public function getColumns($databaseName, $tableName);
 
 }
