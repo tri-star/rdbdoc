@@ -4,6 +4,7 @@ namespace Dbdg\InputPorts\Connectors;
 
 
 use Dbdg\Models\Column;
+use Dbdg\Models\ConnectionConfig;
 use Dbdg\Models\Table;
 
 class ConnectorMysql implements ConnectorInterface
@@ -15,7 +16,10 @@ class ConnectorMysql implements ConnectorInterface
     private $db;
 
 
-    private $connectionInfo;
+    /**
+     * @var ConnectionConfig
+     */
+    private $connectionConfig;
 
 
     public function __construct()
@@ -24,9 +28,9 @@ class ConnectorMysql implements ConnectorInterface
     }
 
 
-    public function init($connectionInfo)
+    public function init(ConnectionConfig $connectionConfig)
     {
-        $this->connectionInfo = $connectionInfo;
+        $this->connectionConfig = $connectionConfig;
     }
 
 
@@ -147,12 +151,12 @@ class ConnectorMysql implements ConnectorInterface
         }
 
         $dsn = sprintf('mysql:host=%s;port=%s;dbname=%s',
-            $this->connectionInfo['host'],
-            $this->connectionInfo['port'],
-            $this->connectionInfo['db']
+            $this->connectionConfig->getHost(),
+            $this->connectionConfig->getPort(),
+            $this->connectionConfig->getDb()
         );
 
-        $this->db = new \PDO($dsn, $this->connectionInfo['user'], $this->connectionInfo['pass']);
+        $this->db = new \PDO($dsn, $this->connectionConfig->getUser(), $this->connectionConfig->getPassword());
 
 
         return $this->db;

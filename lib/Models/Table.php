@@ -22,6 +22,16 @@ class Table
     private $metaData;
 
 
+    public function __construct() {
+        $this->name = '';
+        $this->comment = '';
+        $this->description = '';
+        $this->columns = array();
+        $this->indexes = array();
+        $this->metaData = array();
+    }
+
+
     public function getName()
     {
         return $this->name;
@@ -65,6 +75,9 @@ class Table
     }
 
 
+    /**
+     * @return Column[]
+     */
     public function getColumns()
     {
         return $this->columns;

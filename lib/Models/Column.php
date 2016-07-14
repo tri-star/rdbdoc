@@ -23,6 +23,18 @@ class Column
     private $description;
 
 
+    public function __construct() {
+        $this->name = '';
+        $this->position = 0;
+        $this->type = '';
+        $this->default = '';
+        $this->nullable = false;
+        $this->metaData = array();
+        $this->comment = '';
+        $this->description = '';
+    }
+
+
     public function getName() {
         return $this->name;
     }
