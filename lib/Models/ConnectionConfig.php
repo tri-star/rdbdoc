@@ -13,6 +13,16 @@ class ConnectionConfig
     private $user;
     private $pass;
 
+
+    public function __construct($host='', $port='', $db='', $user='', $pass='')
+    {
+        $this->host = $host;
+        $this->port = $port;
+        $this->db = $db;
+        $this->user = $user;
+        $this->pass = $pass;
+    }
+
     public function getHost()
     {
         return $this->host;

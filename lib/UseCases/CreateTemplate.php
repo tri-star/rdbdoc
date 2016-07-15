@@ -23,7 +23,7 @@ class CreateTemplate
         $connector->init($connectionConfig);
 
         $dataBase = new DataBase();
-        $dataBase->setName = $connectionConfig->getDb();
+        $dataBase->setName($connectionConfig->getDb());
 
         $tables = $connector->getTables($dataBase->getName());
 
@@ -37,6 +37,8 @@ class CreateTemplate
 
         $templateWriter = new TemplateWriterYaml();
         $templateWriter->write($streamWriter, $dataBase);
+
+        var_dump($dataBase);
     }
 
 }
