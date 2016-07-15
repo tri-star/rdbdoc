@@ -18,12 +18,10 @@ class CreateTemplate
 
     }
 
-    public function createTemplate(ConnectionConfig $connectionConfig, ConnectorInterface $connector, StreamWriterInterface $streamWriter)
+    public function createTemplate($dbName, ConnectorInterface $connector, StreamWriterInterface $streamWriter)
     {
-        $connector->init($connectionConfig);
-
         $dataBase = new DataBase();
-        $dataBase->setName($connectionConfig->getDb());
+        $dataBase->setName($dbName);
 
         $tables = $connector->getTables($dataBase->getName());
 
@@ -38,7 +36,6 @@ class CreateTemplate
         $templateWriter = new TemplateWriterYaml();
         $templateWriter->write($streamWriter, $dataBase);
 
-        var_dump($dataBase);
     }
 
 }

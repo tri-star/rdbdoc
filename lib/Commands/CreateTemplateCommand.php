@@ -54,9 +54,10 @@ class CreateTemplateCommand extends Command
         $streamWriter = new StreamWriterFile($outputPath);
         $connectionConfig = new ConnectionConfig($host, $port, $dbName, $user, $password);
         $connector = new ConnectorMysql();
+        $connector->init($connectionConfig);
 
         $createTemplate = new CreateTemplate();
-        $createTemplate->createTemplate($connectionConfig, $connector, $streamWriter);
+        $createTemplate->createTemplate($dbName, $connector, $streamWriter);
     }
 
 }
