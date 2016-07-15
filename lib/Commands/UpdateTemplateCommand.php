@@ -4,26 +4,31 @@ namespace Dbdg\Commands;
 
 
 use Dbdg\InputPorts\Connectors\ConnectorMysql;
+use Dbdg\InputPorts\StreamReaders\StreamReaderFile;
+use Dbdg\InputPorts\TemplateReaders\TemplateReaderYaml;
 use Dbdg\Models\ConnectionConfig;
 use Dbdg\OutputPorts\StreamWriters\StreamWriterFile;
 use Dbdg\OutputPorts\TemplateWriters\TemplateWriterYaml;
 use Dbdg\UseCases\CreateTemplate;
+use Dbdg\UseCases\UpdateTemplate;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
-class CreateTemplateCommand extends Command
+class UpdateTemplateCommand extends Command
 {
 
     protected function configure()
     {
-        $this->setName('generate:template')
-            ->setDescription('スキーマ情報からテンプレートファイルを作成します')
-            ->addOption('host', null, InputArgument::OPTIONAL, '接続先ホスト', 'localhost')
-            ->addOption('port', null, InputArgument::OPTIONAL, '接続先ポート', 3306)
-            ->addOption('user', null, InputArgument::OPTIONAL, '接続先ユーザー名')
+        $this->setName('update:template')
+            ->setDescription('')
+            ->addOption('host', null, InputOption::VALUE_OPTIONAL, '接続先ホスト', 'localhost')
+            ->addOption('port', null, InputOption::VALUE_OPTIONAL, '接続先ポート', 3306)
+            ->addOption('user', null, InputOption::VALUE_OPTIONAL, '接続先ユーザー名')
+            ->addOption('input', null, InputOption::VALUE_REQUIRED, 'テンプレートファイル名')
             ->addArgument('db_name', InputArgument::REQUIRED, '接続DB名')
             ->addArgument('file', InputArgument::OPTIONAL, '出力ファイル名', 'schema.yaml')
         ;
@@ -36,9 +41,14 @@ class CreateTemplateCommand extends Command
         $host = $options['host'];
         $port = $options['port'];
         $user = $options['user'];
+        $inputFile = $options['input'];
 
         if(!$user) {
             $user = get_current_user();
+        }
+        if(!$inputFile) {
+            $output->writeln('<error>テンプレートファイルが指定されていません</error>');
+                return;
         }
 
         $dbName = $input->getArgument('db_name');
@@ -55,12 +65,16 @@ class CreateTemplateCommand extends Command
         $connector = new ConnectorMysql();
         $connector->init($connectionConfig);
 
+        $streamReader = new StreamReaderFile($inputFile);
+        $templateReader = new TemplateReaderYaml();
+        $templateReader->init($streamReader);
+
         $streamWriter = new StreamWriterFile($outputPath);
         $templateWriter = new TemplateWriterYaml();
         $templateWriter->init($streamWriter);
 
-        $createTemplate = new CreateTemplate();
-        $createTemplate->createTemplate($dbName, $connector, $templateWriter);
+        $updateTemplate = new UpdateTemplate();
+        $updateTemplate->updateTemplate($dbName, $connector, $templateReader, $templateWriter);
     }
 
 }

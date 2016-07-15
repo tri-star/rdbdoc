@@ -11,8 +11,17 @@ use Symfony\Component\Yaml\Yaml;
 class TemplateWriterYaml implements TemplateWriterInterface
 {
 
+    /**
+     * @var StreamWriterInterface
+     */
+    private $streamWriter;
 
-    public function write(StreamWriterInterface $streamWriter, DataBase $database)
+    public function init(StreamWriterInterface $streamWriter)
+    {
+        $this->streamWriter = $streamWriter;
+    }
+
+    public function write(DataBase $database)
     {
 
         $tableDefinitions = array();
@@ -33,7 +42,7 @@ class TemplateWriterYaml implements TemplateWriterInterface
 
         $yaml = Yaml::dump($outputData, 5);
 
-        $streamWriter->write($yaml);
+        $this->streamWriter->write($yaml);
     }
 
 

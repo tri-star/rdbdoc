@@ -113,4 +113,8 @@ class Column
         $this->description = $description;
     }
 
+    public function mergeDescription(Column $other) {
+        $this->description = $other->getDescription();
+    }
+
 }

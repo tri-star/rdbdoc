@@ -89,5 +89,23 @@ class Table
     }
 
 
+    public function mergeDescription(Table $other)
+    {
+        $this->description = $other->getDescription();
+
+        $otherColumns = array();
+        foreach($other->getColumns() as $c) {
+            $otherColumns[$c->getName()] = $c;
+        }
+
+        foreach($this->getColumns() as $column) {
+            if(!isset($otherColumns[ $column->getName() ])) {
+                continue;
+            }
+            $otherColumn = $otherColumns[ $column->getName() ];
+            $column->mergeDescription($otherColumn);
+        }
+
+    }
 
 }

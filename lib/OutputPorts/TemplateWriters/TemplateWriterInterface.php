@@ -10,6 +10,8 @@ use Dbdg\OutputPorts\StreamWriters\StreamWriterInterface;
 interface TemplateWriterInterface
 {
 
-    public function write(StreamWriterInterface $streamWriter, DataBase $database);
+    public function init(StreamWriterInterface $streamWriter);
+
+    public function write(DataBase $database);
 
 }

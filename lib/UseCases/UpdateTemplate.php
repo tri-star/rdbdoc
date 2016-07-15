@@ -5,11 +5,11 @@ namespace Dbdg\UseCases;
 
 
 use Dbdg\InputPorts\Connectors\ConnectorInterface;
+use Dbdg\InputPorts\TemplateReaders\TemplateReaderInterface;
 use Dbdg\Models\DataBase;
 use Dbdg\OutputPorts\TemplateWriters\TemplateWriterInterface;
-use Dbdg\OutputPorts\TemplateWriters\TemplateWriterYaml;
 
-class CreateTemplate
+class UpdateTemplate
 {
 
     public function __construct()
@@ -17,8 +17,11 @@ class CreateTemplate
 
     }
 
-    public function createTemplate($dbName, ConnectorInterface $connector, TemplateWriterInterface $templateWriter)
+    public function updateTemplate($dbName, ConnectorInterface $connector, TemplateReaderInterface $templateReader, TemplateWriterInterface $templateWriter)
     {
+
+        $originalDataBase = $templateReader->read();
+
         $dataBase = new DataBase();
         $dataBase->setName($dbName);
 
@@ -31,9 +34,10 @@ class CreateTemplate
             }
             $dataBase->addTable($table);
         }
+        $dataBase->mergeDescription($originalDataBase);
 
         $templateWriter->write($dataBase);
-
     }
+
 
 }
