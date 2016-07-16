@@ -33,7 +33,7 @@ class StreamWriterFile implements StreamWriterInterface
         $written = fputs($fp, $data, $this->bufferSize);
         while($written == $this->bufferSize) {
             $data = substr($data, $this->bufferSize);
-            fputs($fp, $data, $this->bufferSize);
+            $written = fputs($fp, $data, $this->bufferSize);
         }
     }
 
