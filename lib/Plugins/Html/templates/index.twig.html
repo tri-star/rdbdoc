@@ -2,9 +2,32 @@
 
 {% block content %}
 
-<h1>{{ db.getName() }} Documentation</h1>
+<style>
+    h2 {
+        Border-left: 4px solid #444;
+        border-bottom: 1px solid #444;
+        padding-left: 5px;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        margin-top: 20px;
+        margin-bottom: 15px;
+        background-color: #d9edf7;
+    }
 
-<h2>Table of content</h2>
+    h3 {
+        border-bottom: 1px solid #888;
+        padding-left: 5px;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+</style>
+
+<h1>テーブル定義書</h1>
+
+<h2>目次</h2>
 
 <ul>
     <li><a href="#db-desc">データベース情報</a></li>
@@ -22,7 +45,7 @@
     <h2 id="db-desc">データベース情報</h2>
 
     <table class="table table-bordered">
-        <tr class="info">
+        <tr class="active">
             <th style="width: 150px;">データベース名</th>
             <td>{{ db.getName() }}</td>
         </tr>
@@ -38,17 +61,26 @@
     <h2 id="tables">テーブル一覧</h2>
 
     <table class="table table-bordered">
-        <tr class="info">
+        <tr class="active">
             <th style="width: 150px;">テーブル名</th>
+            <th style="width: 150px;">論理名</th>
+            <th>ENGINE</th>
+            <th>ROWS</th>
+            <th>AUTO_INC</th>
             <th>概要</th>
         </tr>
         {% for table in db.getTables() %}
         <tr>
-            <td><a href="">{{ table.getName() }}</a></td>
+            <td><a href="#table-{{ table.getName() }}">{{ table.getName() }}</a></td>
+            <td>{{ table.getLogicalName() }}</td>
+            <td>{{ table.getMetaData().engine }}&nbsp;<span class="text-muted">({{ table.getMetaData().row_format }})</span></td>
+            <td class="text-right">{{ table.getMetaData().rows|number_format }}</td>
+            <td class="text-right">{{ table.getMetaData().auto_increment|number_format }}</td>
             <td>{{ table.getDescription() }}</td>
         </tr>
         {% endfor %}
     </table>
+
 </div>
 
 
@@ -62,7 +94,7 @@
     <p>{{ table.getDescription()|nl2br }}</p>
 
     <table class="table table-bordered">
-        <tr class="info">
+        <tr class="active">
             <th style="width: 150px;">カラム名</th>
             <th style="width: 150px;">名前</th>
             <th style="width: 150px;">データ型</th>
@@ -79,6 +111,22 @@
         </tr>
         {% endfor %}
     </table>
+
+
+    <h4>メタ情報</h4>
+    <table class="table table-bordered">
+        <tr class="active">
+            <th style="width: 150px;">キー</th>
+            <th>値</th>
+        </tr>
+        {% for key, value in table.getMetaData() %}
+        <tr>
+            <td>{{ key }}</td>
+            <td>{{ value }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
     {% endfor %}
 
 </div>
