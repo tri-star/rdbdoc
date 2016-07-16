@@ -22,7 +22,7 @@
     <h2 id="db-desc">データベース情報</h2>
 
     <table class="table table-bordered">
-        <tr>
+        <tr class="info">
             <th style="width: 150px;">データベース名</th>
             <td>{{ db.getName() }}</td>
         </tr>
@@ -38,7 +38,7 @@
     <h2 id="tables">テーブル一覧</h2>
 
     <table class="table table-bordered">
-        <tr>
+        <tr class="info">
             <th style="width: 150px;">テーブル名</th>
             <th>概要</th>
         </tr>
@@ -59,10 +59,10 @@
 
 
     <h3 id="table-{{ table.getName() }}">{{ table.getName() }} テーブル</h3>
-    <p>{{ table.getDescription() }}</p>
+    <p>{{ table.getDescription()|nl2br }}</p>
 
     <table class="table table-bordered">
-        <tr>
+        <tr class="info">
             <th style="width: 150px;">カラム名</th>
             <th style="width: 150px;">名前</th>
             <th style="width: 150px;">データ型</th>
@@ -75,7 +75,7 @@
             <td>{{ column.getLogicalName() }}</td>
             <td>{{ column.getType() }}</td>
             <td>{{ column.getDefault() }}</td>
-            <td>{{ column.getDescription() }}</td>
+            <td>{{ column.getDescription()|nl2br }}</td>
         </tr>
         {% endfor %}
     </table>
