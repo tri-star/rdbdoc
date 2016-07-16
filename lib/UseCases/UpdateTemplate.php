@@ -17,13 +17,13 @@ class UpdateTemplate
 
     }
 
-    public function updateTemplate($dbName, ConnectorInterface $connector, TemplateReaderInterface $templateReader, TemplateWriterInterface $templateWriter)
+    public function updateTemplate(ConnectorInterface $connector, TemplateReaderInterface $templateReader, TemplateWriterInterface $templateWriter)
     {
 
         $originalDataBase = $templateReader->read();
 
         $dataBase = new DataBase();
-        $dataBase->setName($dbName);
+        $dataBase->setName($originalDataBase->getName());
 
         $tables = $connector->getTables($dataBase->getName());
 

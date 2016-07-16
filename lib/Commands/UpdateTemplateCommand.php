@@ -29,7 +29,6 @@ class UpdateTemplateCommand extends Command
             ->addOption('port', null, InputOption::VALUE_OPTIONAL, '接続先ポート', 3306)
             ->addOption('user', null, InputOption::VALUE_OPTIONAL, '接続先ユーザー名')
             ->addOption('input', null, InputOption::VALUE_REQUIRED, 'テンプレートファイル名')
-            ->addArgument('db_name', InputArgument::REQUIRED, '接続DB名')
             ->addArgument('file', InputArgument::OPTIONAL, '出力ファイル名', 'schema.yaml')
         ;
     }
@@ -51,7 +50,6 @@ class UpdateTemplateCommand extends Command
                 return;
         }
 
-        $dbName = $input->getArgument('db_name');
         $outputPath = $input->getArgument('file');
 
         $questionHelper = $this->getHelper('question');
@@ -74,7 +72,7 @@ class UpdateTemplateCommand extends Command
         $templateWriter->init($streamWriter);
 
         $updateTemplate = new UpdateTemplate();
-        $updateTemplate->updateTemplate($dbName, $connector, $templateReader, $templateWriter);
+        $updateTemplate->updateTemplate($connector, $templateReader, $templateWriter);
     }
 
 }
