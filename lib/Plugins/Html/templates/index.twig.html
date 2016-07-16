@@ -1,0 +1,85 @@
+{% extends "layout.twig.html" %}
+
+{% block content %}
+
+<h1>{{ db.getName() }} Documentation</h1>
+
+<h2>Table of content</h2>
+
+<ul>
+    <li><a href="#db-desc">データベース情報</a></li>
+    <li>
+        <a href="#db-desc">テーブル一覧</a>
+        <ul>
+            {% for table in db.getTables() %}
+            <li><a href="#table-{{ table.getName() }}">{{ table.getName() }}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+</ul>
+
+<div class="row">
+    <h2 id="db-desc">データベース情報</h2>
+
+    <table class="table table-bordered">
+        <tr>
+            <th style="width: 150px;">データベース名</th>
+            <td>{{ db.getName() }}</td>
+        </tr>
+        <tr>
+            <th>概要</th>
+            <td>{{ db.getDescription() }}</td>
+        </tr>
+    </table>
+</div>
+
+
+<div class="row">
+    <h2 id="tables">テーブル一覧</h2>
+
+    <table class="table table-bordered">
+        <tr>
+            <th style="width: 150px;">テーブル名</th>
+            <th>概要</th>
+        </tr>
+        {% for table in db.getTables() %}
+        <tr>
+            <td><a href="">{{ table.getName() }}</a></td>
+            <td>{{ table.getDescription() }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+
+<div class="row">
+    <h2>テーブル詳細</h2>
+
+    {% for table in db.getTables() %}
+    <h3 id="table-{{ table.getName() }}">{{ table.getName() }} テーブル</h3>
+    <p>{{ table.getDescription() }}</p>
+
+    <table class="table table-bordered">
+        <tr>
+            <th style="width: 150px;">カラム名</th>
+            <th style="width: 150px;">名前</th>
+            <th style="width: 150px;">データ型</th>
+            <th style="width: 150px;">デフォルト値</th>
+            <th>説明</th>
+        </tr>
+        {% for column in table.getColumns() %}
+        <tr>
+            <td>{{ column.getName() }}</td>
+            <td></td>
+            <td>{{ column.getType() }}</td>
+            <td>{{ column.getDefault() }}</td>
+            <td>{{ column.getDescription() }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endfor %}
+
+</div>
+
+
+{% endblock %}
