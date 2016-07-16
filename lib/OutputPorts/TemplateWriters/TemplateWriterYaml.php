@@ -27,7 +27,8 @@ class TemplateWriterYaml implements TemplateWriterInterface
         $tableDefinitions = array();
         foreach($database->getTables() as $table) {
             $tableDefinitions[$table->getName()] = array(
-                'description' => $table->getDescription(),
+                'name' => $table->getLogicalName(),
+                'desc' => $table->getDescription(),
                 'columns' => $this->getColumnDefinitions($table),
             );
         }
@@ -35,7 +36,7 @@ class TemplateWriterYaml implements TemplateWriterInterface
         $outputData = array(
             'database' => array(
                 'name' => $database->getName(),
-                'description' => $database->getDescription(),
+                'desc' => $database->getDescription(),
                 'tables' => $tableDefinitions,
             )
         );
@@ -51,7 +52,10 @@ class TemplateWriterYaml implements TemplateWriterInterface
     {
         $columnDefinitions = array();
         foreach($table->getColumns() as $column) {
-            $columnDefinitions[$column->getName()] = $column->getDescription();
+            $columnDefinitions[$column->getName()] = array(
+                'name' => $column->getLogicalName(),
+                'desc' => $column->getDescription(),
+            );
         }
         return $columnDefinitions;
     }

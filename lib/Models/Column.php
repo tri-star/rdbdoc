@@ -8,6 +8,8 @@ class Column
 
     private $name;
 
+    private $logicalName;
+
     private $position;
 
     private $type;
@@ -25,6 +27,7 @@ class Column
 
     public function __construct() {
         $this->name = '';
+        $this->logicalName = '';
         $this->position = 0;
         $this->type = '';
         $this->default = '';
@@ -42,6 +45,15 @@ class Column
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    public function getLogicalName() {
+        return $this->logicalName;
+    }
+
+    public function setLogicalName($logicalName)
+    {
+        $this->logicalName = $logicalName;
     }
 
     public function getPosition() {
@@ -114,6 +126,7 @@ class Column
     }
 
     public function mergeDescription(Column $other) {
+        $this->logicalName = $other->getLogicalName();
         $this->description = $other->getDescription();
     }
 

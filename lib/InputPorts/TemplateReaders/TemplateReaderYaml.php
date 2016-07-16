@@ -53,7 +53,7 @@ class TemplateReaderYaml implements TemplateReaderInterface
             throw new \Exception('database.tablesキーが存在しません。');
         }
 
-        $description = isset($parsedDataBase['description']) ? $parsedDataBase['description'] : '';
+        $description = isset($parsedDataBase['desc']) ? $parsedDataBase['desc'] : '';
         $comment     = isset($parsedDataBase['comment']) ? $parsedDataBase['comment'] : '';
 
         $dataBase = new DataBase();
@@ -88,14 +88,21 @@ class TemplateReaderYaml implements TemplateReaderInterface
             throw new \Exception($tableName . ': columnsキーが配列ではありません。');
         }
 
-        $description = isset($yaml['description']) ? $yaml['description'] : '';
+        $logicalName = isset($yaml['name']) ? $yaml['name'] : '';
+        $description = isset($yaml['desc']) ? $yaml['desc'] : '';
 
         $table = new Table();
         $table->setName($tableName);
+        $table->setLogicalName($logicalName);
         $table->setDescription($description);
-        foreach($yaml['columns'] as $columnName => $description) {
+        foreach($yaml['columns'] as $columnName => $columnEntry) {
             $column = new Column();
+
+            $logicalName = isset($columnEntry['name']) ? $columnEntry['name'] : '';
+            $description = isset($columnEntry['desc']) ? $columnEntry['desc'] : '';
+
             $column->setName($columnName);
+            $column->setLogicalName($logicalName);
             $column->setDescription($description);
             $table->addColumn($column);
         }

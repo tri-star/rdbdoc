@@ -8,6 +8,8 @@ class Table
 
     private $name;
 
+    private $logicalName;
+
     private $comment;
 
     private $description;
@@ -24,6 +26,7 @@ class Table
 
     public function __construct() {
         $this->name = '';
+        $this->logicalName = '';
         $this->comment = '';
         $this->description = '';
         $this->columns = array();
@@ -40,6 +43,16 @@ class Table
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    public function getLogicalName()
+    {
+        return $this->logicalName;
+    }
+
+    public function setLogicalName($name)
+    {
+        $this->logicalName = $name;
     }
 
 
@@ -91,6 +104,7 @@ class Table
 
     public function mergeDescription(Table $other)
     {
+        $this->logicalName = $other->getLogicalName();
         $this->description = $other->getDescription();
 
         $otherColumns = array();
