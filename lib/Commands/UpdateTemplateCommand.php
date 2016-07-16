@@ -59,13 +59,13 @@ class UpdateTemplateCommand extends Command
 
         $password = $questionHelper->ask($input, $output, $passwordQuestion);
 
-        $connectionConfig = new ConnectionConfig($host, $port, $dbName, $user, $password);
-        $connector = new ConnectorMysql();
-        $connector->init($connectionConfig);
-
         $streamReader = new StreamReaderFile($inputFile);
         $templateReader = new TemplateReaderYaml();
         $templateReader->init($streamReader);
+
+        $connectionConfig = new ConnectionConfig($host, $port, '', $user, $password);
+        $connector = new ConnectorMysql();
+        $connector->init($connectionConfig);
 
         $streamWriter = new StreamWriterFile($outputPath);
         $templateWriter = new TemplateWriterYaml();
