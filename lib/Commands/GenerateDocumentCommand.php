@@ -10,6 +10,7 @@ use Dbdg\Models\ConnectionConfig;
 use Dbdg\Models\DataBase;
 use Dbdg\Models\OutputConfig;
 use Dbdg\Plugins\Html\DocumentWriterHtml;
+use Dbdg\UseCases\GenerateDocument;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -56,33 +57,17 @@ class GenerateDocumentCommand extends Command
 
         $templateReader = new TemplateReaderYaml();
         $templateReader->init(new StreamReaderFile($inputFile));
-        $originalDataBase = $templateReader->read();
 
-        $connectionConfig = new ConnectionConfig($host, $port, $originalDataBase->getName(), $user, $password);
+        $connectionConfig = new ConnectionConfig($host, $port, '', $user, $password);
         $connector = new ConnectorMysql();
         $connector->init($connectionConfig);
 
         $outputConfig = new OutputConfig();
         $outputConfig->init($outputDir);
-
-
-        $dataBase = new DataBase();
-        $dataBase->setName($originalDataBase->getName());
-
-        $tables = $connector->getTables($dataBase->getName());
-        foreach($tables as $table) {
-            $columns = $connector->getColumns($dataBase->getName(), $table->getName());
-            foreach($columns as $column) {
-                $table->addColumn($column);
-            }
-            $dataBase->addTable($table);
-        }
-        $dataBase->mergeDescription($originalDataBase);
         $docWriter = new DocumentWriterHtml();
-        $docWriter->write($outputConfig, $dataBase);
 
-//        $createTemplate = new CreateTemplate();
-//        $createTemplate->createTemplate($dbName, $connector, $templateWriter);
+        $generateDocument = new GenerateDocument();
+        $generateDocument->generate($outputConfig, $templateReader, $connector, $docWriter);
     }
 
 }
