@@ -8,6 +8,7 @@ use Dbdg\Models\OutputConfig;
 use Dbdg\OutputPorts\StreamWriters\StreamWriterFile;
 use Dbdg\OutputPorts\StreamWriters\StreamWriterInterface;
 use Dbdg\Plugins\DocumentWriterPluginInterface;
+use Dbdg\Plugins\PluginManager;
 use Twig_Environment;
 use Twig_Loader_Filesystem;
 
@@ -69,4 +70,8 @@ class DocumentWriterHtml implements DocumentWriterPluginInterface
         $this->writer->write($html);
     }
 
+    public function installPlugin(PluginManager $manager)
+    {
+        $manager->registerExtensionPoint('document_writer', $this);
+    }
 }

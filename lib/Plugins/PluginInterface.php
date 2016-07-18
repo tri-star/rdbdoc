@@ -10,4 +10,6 @@ interface PluginInterface
     public function getName();
 
 
+    public function installPlugin(PluginManager $manager);
+
 }
