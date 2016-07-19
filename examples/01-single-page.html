@@ -1,0 +1,211 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>db_name Documentation</title>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+
+<div class="container">
+<!--
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Document</a>
+            </div>
+        </div>
+    </nav>
+-->
+    
+<style>
+    h2 {
+        Border-left: 4px solid #444;
+        border-bottom: 1px solid #444;
+        padding-left: 5px;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        margin-top: 20px;
+        margin-bottom: 15px;
+        background-color: #d9edf7;
+    }
+
+    h3 {
+        border-bottom: 1px solid #888;
+        padding-left: 5px;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+</style>
+
+<h1>テーブル定義書</h1>
+
+<h2>目次</h2>
+
+<ul>
+    <li><a href="#db-desc">データベース情報</a></li>
+    <li>
+        <a href="#db-desc">テーブル一覧</a>
+        <ul>
+                        <li><a href="#table-table1">table1</a></li>
+                    </ul>
+    </li>
+</ul>
+
+<div class="row">
+    <h2 id="db-desc">データベース情報</h2>
+
+    <table class="table table-bordered">
+        <tr class="active">
+            <th style="width: 150px;">データベース名</th>
+            <td>db_name</td>
+        </tr>
+        <tr>
+            <th>概要</th>
+            <td>テストDB</td>
+        </tr>
+    </table>
+</div>
+
+
+<div class="row">
+    <h2 id="tables">テーブル一覧</h2>
+
+    <table class="table table-bordered">
+        <tr class="active">
+            <th style="width: 150px;">テーブル名</th>
+            <th style="width: 150px;">論理名</th>
+            <th>ENGINE</th>
+            <th>ROWS</th>
+            <th>AUTO_INC</th>
+            <th>概要</th>
+        </tr>
+                <tr>
+            <td><a href="#table-table1">table1</a></td>
+            <td>テストテーブル</td>
+            <td>InnoDB&nbsp;<span class="text-muted">(Compact)</span></td>
+            <td class="text-right">0</td>
+            <td class="text-right">1</td>
+            <td>テーブルの説明文</td>
+        </tr>
+            </table>
+
+</div>
+
+
+<div class="row">
+    <h2>テーブル詳細</h2>
+
+    
+
+    <h3 id="table-table1">table1 テーブル</h3>
+    <p>テーブルの説明文</p>
+
+    <table class="table table-bordered">
+        <tr class="active">
+            <th style="width: 150px;">カラム名</th>
+            <th style="width: 150px;">名前</th>
+            <th style="width: 150px;">データ型</th>
+            <th style="width: 150px;">デフォルト値</th>
+            <th>説明</th>
+        </tr>
+                <tr>
+            <td>id</td>
+            <td>ID</td>
+            <td>int(11)</td>
+            <td></td>
+            <td></td>
+        </tr>
+                <tr>
+            <td>name</td>
+            <td>名前</td>
+            <td>varchar(255)</td>
+            <td></td>
+            <td></td>
+        </tr>
+                <tr>
+            <td>type</td>
+            <td>種別</td>
+            <td>tinyint(3) unsigned</td>
+            <td>1</td>
+            <td>1: タイプ1<br />
+2: タイプ2<br />
+</td>
+        </tr>
+                <tr>
+            <td>created</td>
+            <td>登録日時</td>
+            <td>datetime</td>
+            <td>CURRENT_TIMESTAMP</td>
+            <td></td>
+        </tr>
+                <tr>
+            <td>updated</td>
+            <td>更新日時</td>
+            <td>datetime</td>
+            <td>CURRENT_TIMESTAMP</td>
+            <td></td>
+        </tr>
+            </table>
+
+
+    <h4>メタ情報</h4>
+    <table class="table table-bordered">
+        <tr class="active">
+            <th style="width: 150px;">キー</th>
+            <th>値</th>
+        </tr>
+                <tr>
+            <td>engine</td>
+            <td>InnoDB</td>
+        </tr>
+                <tr>
+            <td>row_format</td>
+            <td>Compact</td>
+        </tr>
+                <tr>
+            <td>rows</td>
+            <td>0</td>
+        </tr>
+                <tr>
+            <td>avg_row_length</td>
+            <td>0</td>
+        </tr>
+                <tr>
+            <td>data_length</td>
+            <td>16384</td>
+        </tr>
+                <tr>
+            <td>auto_increment</td>
+            <td>1</td>
+        </tr>
+                <tr>
+            <td>created</td>
+            <td>2016-07-19 16:35:25</td>
+        </tr>
+                <tr>
+            <td>create_options</td>
+            <td></td>
+        </tr>
+            </table>
+
+    
+</div>
+
+
+
+
+</div>
+
+</body>
+
+</html>
