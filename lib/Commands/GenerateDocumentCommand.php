@@ -7,7 +7,6 @@ use Dbdg\InputPorts\Connectors\ConnectorMysql;
 use Dbdg\InputPorts\StreamReaders\StreamReaderFile;
 use Dbdg\InputPorts\TemplateReaders\TemplateReaderYaml;
 use Dbdg\Models\ConnectionConfig;
-use Dbdg\Models\DataBase;
 use Dbdg\Models\OutputConfig;
 use Dbdg\Plugins\Excel\DocumentWriterExcel;
 use Dbdg\Plugins\Html\DocumentWriterHtml;
