@@ -4,7 +4,7 @@ rdbdoc
 ![release](http://img.shields.io/github/release/tri-star/rdbdoc.svg?style=flat-square)
 ![license](http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)
 
-# Overview
+# 概要
 rdbdocはRDBMSのスキーマのメタデータと、各テーブル/カラムの説明を記述したファイルから
 テーブル定義書を生成するコマンドラインツールです。
 
@@ -17,7 +17,9 @@ rdbdocはRDBMSのスキーマのメタデータと、各テーブル/カラム�
 * [Excelブック(単一ファイル)](./examples/02-single-excel-book.xlsx)
 
 
-## Usage
+## 基本的な使用方法
+
+### テンプレートの生成
 最初に、既存のスキーマからテーブル定義のテンプレート(schema.yaml)の生成を行います。
 ```
 # root@localhost:3306 でMySQLに接続出来ると仮定します。
@@ -47,6 +49,7 @@ database:
 * [説明の記入例](./examples/example.yaml)
 
 
+### ドキュメントの生成
 以下のコマンドを実行すると、./docsディレクトリ配下にExcelのBook形式でドキュメントが生成されます。
 
 ```
@@ -54,14 +57,14 @@ database:
 php rdbdoc.php generate:document --user=root --input=schema.yaml ./docs
 ```
 
-生成されるドキュメントの例：
+### 生成されるドキュメントの例
 * [HTML(シングルページ)](./examples/01-single-page.html)
 * [Excelブック(単一ファイル)](./examples/02-single-excel-book.xlsx)
 
 
-### その他の使用方法
+## その他の使用方法
 
-#### カラム追加の反映
+### カラム追加の反映
 以下のコマンドを実行すると、既存のスキーマ定義ファイルにDB側で行われた変更を反映することが可能です。
 
 (出力ファイル名を入力ファイルと同名にすることも可能です。この場合、内容は上書きされます)
@@ -70,14 +73,14 @@ php rdbdoc.php generate:document --user=root --input=schema.yaml ./docs
 php rdbdoc.php update:template --user=root --input=schema.yaml schema-new.yaml
 ```
 
-#### ホスト名、ポート番号の指定
+### ホスト名、ポート番号の指定
 --host, --portオプションで接続先ホスト、ポート番号を指定します。
 
 ```
 php rdbdoc.php generate:template --host=172.18.0.1 --port=13306 --user=root test schema.yaml
 ```
 
-#### コマンド一覧の確認
+### コマンド一覧の確認
 以下のコマンドで、実行可能なコマンドを一覧表示します。
 
 ```
