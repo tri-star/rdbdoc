@@ -1,8 +1,9 @@
 {
-    "name": "urban/dbdg",
+    "name": "tri-star/rdbdoc",
     "description": "Database definition generator.",
     "type": "tool",
     "license": "MIT",
+    "version": "0.1.0",
     "php": "5.3",
     "require": {
         "symfony/console": "^3.1",
