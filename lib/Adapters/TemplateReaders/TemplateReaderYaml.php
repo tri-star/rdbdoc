@@ -1,9 +1,9 @@
 <?php
 
-namespace Dbdg\InputPorts\TemplateReaders;
+namespace Dbdg\Adapters\TemplateReaders;
 
 
-use Dbdg\InputPorts\StreamReaders\StreamReaderInterface;
+use Dbdg\Utils\StreamReaders\StreamReaderInterface;
 use Dbdg\Models\Column;
 use Dbdg\Models\DataBase;
 use Dbdg\Models\Table;

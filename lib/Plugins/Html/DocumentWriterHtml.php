@@ -5,8 +5,8 @@ namespace Dbdg\Plugins\Html;
 
 use Dbdg\Models\DataBase;
 use Dbdg\Models\OutputConfig;
-use Dbdg\OutputPorts\StreamWriters\StreamWriterFile;
-use Dbdg\OutputPorts\StreamWriters\StreamWriterInterface;
+use Dbdg\Utils\StreamWriters\StreamWriterFile;
+use Dbdg\Utils\StreamWriters\StreamWriterInterface;
 use Dbdg\Plugins\DocumentWriterPluginInterface;
 use Dbdg\Plugins\PluginManager;
 use Twig_Environment;

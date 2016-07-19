@@ -3,9 +3,9 @@
 namespace Dbdg\Commands;
 
 
-use Dbdg\InputPorts\Connectors\ConnectorMysql;
-use Dbdg\InputPorts\StreamReaders\StreamReaderFile;
-use Dbdg\InputPorts\TemplateReaders\TemplateReaderYaml;
+use Dbdg\Adapters\Connectors\ConnectorMysql;
+use Dbdg\Utils\StreamReaders\StreamReaderFile;
+use Dbdg\Adapters\TemplateReaders\TemplateReaderYaml;
 use Dbdg\Models\ConnectionConfig;
 use Dbdg\Models\OutputConfig;
 use Dbdg\Plugins\Excel\DocumentWriterExcel;

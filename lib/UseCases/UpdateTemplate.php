@@ -4,10 +4,10 @@
 namespace Dbdg\UseCases;
 
 
-use Dbdg\InputPorts\Connectors\ConnectorInterface;
-use Dbdg\InputPorts\TemplateReaders\TemplateReaderInterface;
+use Dbdg\Adapters\Connectors\ConnectorInterface;
+use Dbdg\Adapters\TemplateReaders\TemplateReaderInterface;
 use Dbdg\Models\DataBase;
-use Dbdg\OutputPorts\TemplateWriters\TemplateWriterInterface;
+use Dbdg\Adapters\TemplateWriters\TemplateWriterInterface;
 
 class UpdateTemplate
 {

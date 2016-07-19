@@ -1,7 +1,7 @@
 <?php
 
 
-use Dbdg\InputPorts\Connectors\ConnectorMysql;
+use Dbdg\Adapters\Connectors\ConnectorMysql;
 
 class ConnectorMysqlTest extends PHPUnit_Framework_TestCase {
 

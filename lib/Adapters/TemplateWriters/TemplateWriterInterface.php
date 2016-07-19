@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Dbdg\OutputPorts\TemplateWriters;
+namespace Dbdg\Adapters\TemplateWriters;
 
 
 use Dbdg\Models\Database;
-use Dbdg\OutputPorts\StreamWriters\StreamWriterInterface;
+use Dbdg\Utils\StreamWriters\StreamWriterInterface;
 
 interface TemplateWriterInterface
 {

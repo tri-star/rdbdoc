@@ -4,8 +4,8 @@
 namespace Dbdg\UseCases;
 
 
-use Dbdg\InputPorts\Connectors\ConnectorInterface;
-use Dbdg\InputPorts\TemplateReaders\TemplateReaderInterface;
+use Dbdg\Adapters\Connectors\ConnectorInterface;
+use Dbdg\Adapters\TemplateReaders\TemplateReaderInterface;
 use Dbdg\Models\DataBase;
 use Dbdg\Models\OutputConfig;
 use Dbdg\Plugins\DocumentWriterPluginInterface;

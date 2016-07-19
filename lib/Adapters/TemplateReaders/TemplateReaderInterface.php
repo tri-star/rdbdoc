@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Dbdg\InputPorts\TemplateReaders;
+namespace Dbdg\Adapters\TemplateReaders;
 
 
 use Dbdg\Models\Database;
-use Dbdg\InputPorts\StreamReaders\StreamReaderInterface;
+use Dbdg\Utils\StreamReaders\StreamReaderInterface;
 
 interface TemplateReaderInterface
 {

@@ -3,10 +3,10 @@
 namespace Dbdg\Commands;
 
 
-use Dbdg\InputPorts\Connectors\ConnectorMysql;
+use Dbdg\Adapters\Connectors\ConnectorMysql;
 use Dbdg\Models\ConnectionConfig;
-use Dbdg\OutputPorts\StreamWriters\StreamWriterFile;
-use Dbdg\OutputPorts\TemplateWriters\TemplateWriterYaml;
+use Dbdg\Utils\StreamWriters\StreamWriterFile;
+use Dbdg\Adapters\TemplateWriters\TemplateWriterYaml;
 use Dbdg\UseCases\CreateTemplate;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

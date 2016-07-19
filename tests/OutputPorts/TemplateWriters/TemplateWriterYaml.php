@@ -4,7 +4,7 @@
 use Dbdg\Models\Column;
 use Dbdg\Models\DataBase;
 use Dbdg\Models\Table;
-use Dbdg\OutputPorts\TemplateWriters\TemplateWriterYaml;
+use Dbdg\Adapters\TemplateWriters\TemplateWriterYaml;
 
 class TemplateWriterYamlTest extends PHPUnit_Framework_TestCase
 {

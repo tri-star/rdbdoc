@@ -1,6 +1,6 @@
 <?php
 
-namespace Dbdg\OutputPorts\StreamWriters;
+namespace Dbdg\Utils\StreamWriters;
 
 
 interface StreamWriterInterface

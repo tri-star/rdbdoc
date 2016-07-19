@@ -1,7 +1,9 @@
 <?php
 
-namespace Dbdg\InputPorts\StreamReaders;
+namespace Dbdg\Utils\StreamReaders;
 
+
+use Dbdg\Utils\StreamReaders\StreamReaderInterface;
 
 class StreamReaderFile implements StreamReaderInterface
 {

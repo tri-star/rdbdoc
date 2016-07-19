@@ -1,7 +1,9 @@
 <?php
 
-namespace Dbdg\OutputPorts\StreamWriters;
+namespace Dbdg\Utils\StreamWriters;
 
+
+use Dbdg\Utils\StreamWriters\StreamWriterInterface;
 
 class StreamWriterFile implements StreamWriterInterface
 {

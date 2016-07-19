@@ -1,6 +1,6 @@
 <?php
 
-namespace Dbdg\InputPorts\StreamReaders;
+namespace Dbdg\Utils\StreamReaders;
 
 
 interface StreamReaderInterface

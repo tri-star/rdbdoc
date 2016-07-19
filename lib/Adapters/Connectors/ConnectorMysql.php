@@ -1,6 +1,6 @@
 <?php
 
-namespace Dbdg\InputPorts\Connectors;
+namespace Dbdg\Adapters\Connectors;
 
 
 use Dbdg\Models\Column;

@@ -4,10 +4,10 @@
 namespace Dbdg\UseCases;
 
 
-use Dbdg\InputPorts\Connectors\ConnectorInterface;
+use Dbdg\Adapters\Connectors\ConnectorInterface;
 use Dbdg\Models\DataBase;
-use Dbdg\OutputPorts\TemplateWriters\TemplateWriterInterface;
-use Dbdg\OutputPorts\TemplateWriters\TemplateWriterYaml;
+use Dbdg\Adapters\TemplateWriters\TemplateWriterInterface;
+use Dbdg\Adapters\TemplateWriters\TemplateWriterYaml;
 
 class CreateTemplate
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Dbdg\OutputPorts\TemplateWriters;
+namespace Dbdg\Adapters\TemplateWriters;
 
 
 use Dbdg\Models\Database;
 use Dbdg\Models\Table;
-use Dbdg\OutputPorts\StreamWriters\StreamWriterInterface;
+use Dbdg\Utils\StreamWriters\StreamWriterInterface;
 use Symfony\Component\Yaml\Yaml;
 
 class TemplateWriterYaml implements TemplateWriterInterface
