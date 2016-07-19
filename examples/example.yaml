@@ -1,0 +1,18 @@
+database:
+    name: db_name
+    desc: 'テストDB'
+    tables:
+        table1:
+            name: 'テストテーブル'
+            desc: 'テーブルの説明文'
+            columns:
+                id: { name: 'ID', desc: '' }
+                name: { name: '名前', desc: '' }
+                type: 
+                    name: '種別'
+                    desc: |
+                        1: タイプ1
+                        2: タイプ2
+                created: { name: '登録日時', desc: '' }
+                updated: { name: '更新日時', desc: '' }
+

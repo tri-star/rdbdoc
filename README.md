@@ -13,8 +13,8 @@ rdbdocはRDBMSのスキーマのメタデータと、各テーブル/カラム�
 
 ドキュメントの生成形式は現時点では以下の2形式のみですが、プラグインによる拡張や形式のカスタマイズを可能にする予定です。
 
-* [HTML(シングルページ)](https://github.com/tri-star/rdbdoc/blob/master/examples/01-single-page.html)
-* [Excelブック(単一ファイル)](https://github.com/tri-star/rdbdoc/blob/master/examples/02-single-excel-book.xlsx)
+* [HTML(シングルページ)](./examples/01-single-page.html)
+* [Excelブック(単一ファイル)](./examples/02-single-excel-book.xlsx)
 
 
 ## Usage
@@ -26,7 +26,6 @@ php rdbdoc.php generate:template --user=root db_name schema.yaml
 
 生成されるテンプレートの例：db_nameというDBにtable1というテーブルがあった場合
 
-(このファイルのname, descキーにテーブルやカラムの論理名、説明(改行可)を記入していきます)
 ```
 database:
     name: db_name
@@ -43,29 +42,9 @@ database:
                 updated: { name: '', desc: '' }
 ```
 
-説明の記入例：
-
-(コマンドでは、各カラムの説明はインラインで生成されますが、
-YAMLの複数行の構文などで複数行の説明文も記述可能です)
-```
-database:
-    name: db_name
-    desc: 'テストDB'
-    tables:
-        table1:
-            name: 'テストテーブル'
-            desc: 'テーブルの説明文'
-            columns:
-                id: { name: 'ID', desc: '' }
-                name: { name: '名前', desc: '' }
-                type: 
-                    name: '種別'
-                    desc: |
-                        1: タイプ1
-                        2: タイプ2
-                created: { name: '登録日時', desc: '' }
-                updated: { name: '更新日時', desc: '' }
-```
+* このファイルのname, descキーにテーブルやカラムの論理名、説明(改行可)を記入していきます
+* コマンドでは、各カラムの説明はインラインで生成されますが、[YAMLの複数行の構文](https://en.wikipedia.org/wiki/YAML#Block_literals) などで複数行の説明文も記述可能です
+* [説明の記入例](./examples/example.yaml)
 
 
 以下のコマンドを実行すると、./docsディレクトリ配下にExcelのBook形式でドキュメントが生成されます。
@@ -75,9 +54,9 @@ database:
 php rdbdoc.php generate:document --user=root --input=schema.yaml ./docs
 ```
 
-ドキュメントの例：
-* [HTML](https://github.com/tri-star/rdbdoc/blob/master/examples/01-single-page.html)
-* [Excelブック](https://github.com/tri-star/rdbdoc/blob/master/examples/02-single-excel-book.xlsx)
+生成されるドキュメントの例：
+* [HTML(シングルページ)](./examples/01-single-page.html)
+* [Excelブック(単一ファイル)](./examples/02-single-excel-book.xlsx)
 
 
 ### その他の使用方法
