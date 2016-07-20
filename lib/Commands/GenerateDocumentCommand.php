@@ -4,12 +4,11 @@ namespace Dbdg\Commands;
 
 
 use Dbdg\Adapters\Connectors\ConnectorMysql;
+use Dbdg\Plugins\PluginManager;
 use Dbdg\Utils\StreamReaders\StreamReaderFile;
 use Dbdg\Adapters\TemplateReaders\TemplateReaderYaml;
 use Dbdg\Models\ConnectionConfig;
 use Dbdg\Models\OutputConfig;
-use Dbdg\Plugins\Excel\DocumentWriterExcel;
-use Dbdg\Plugins\Html\DocumentWriterHtml;
 use Dbdg\UseCases\GenerateDocument;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -21,15 +20,32 @@ use Symfony\Component\Console\Question\Question;
 class GenerateDocumentCommand extends Command
 {
 
+    /**
+     * @var PluginManager
+     */
+    private $pluginManager;
+
+    private $plugins;
+
     protected function configure()
     {
+        $this->pluginManager = PluginManager::getInstance();
+        $plugins = $this->pluginManager->getPlugins('document_writer');
+
+        $this->plugins = array();
+        foreach($plugins as $plugin) {
+            $pluginName = $plugin->getWriterName();
+            $this->plugins[$pluginName] = $plugin;
+        }
+        $pluginNameList = implode(',', array_keys($this->plugins));
+
         $this->setName('generate:document')
             ->setDescription('スキーマ情報とテンプレートからドキュメントを生成します')
             ->addOption('host', null, InputOption::VALUE_OPTIONAL, '接続先ホスト', 'localhost')
             ->addOption('port', null, InputOption::VALUE_OPTIONAL, '接続先ポート', 3306)
             ->addOption('user', null, InputOption::VALUE_OPTIONAL, '接続先ユーザー名')
             ->addOption('input', null, InputOption::VALUE_OPTIONAL, 'スキーマ定義ファイル名', './schema.yaml')
-            ->addOption('format', null, InputOption::VALUE_OPTIONAL, '出力フォーマット(xlsx,html)', 'xlsx')
+            ->addOption('format', null, InputOption::VALUE_OPTIONAL, "出力フォーマット({$pluginNameList})", 'xlsx')
             ->addArgument('output-dir', InputArgument::OPTIONAL, '出力ディレクトリ', './docs')
         ;
     }
@@ -47,7 +63,7 @@ class GenerateDocumentCommand extends Command
         if(!$user) {
             $user = get_current_user();
         }
-        if(!in_array($format, array('html','xlsx'))) {
+        if(!isset($this->plugins[$format])) {
             throw new \Exception('無効なフォーマットが指定されました。: ' . $format);
         }
 
@@ -70,12 +86,7 @@ class GenerateDocumentCommand extends Command
         $outputConfig = new OutputConfig();
         $outputConfig->init($outputDir);
 
-        $docWriter = null;
-        if($format == 'html') {
-            $docWriter = new DocumentWriterHtml();
-        } else {
-            $docWriter = new DocumentWriterExcel();
-        }
+        $docWriter = $this->plugins[$format];
 
         $generateDocument = new GenerateDocument();
         $generateDocument->generate($outputConfig, $templateReader, $connector, $docWriter);

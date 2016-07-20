@@ -18,8 +18,27 @@ class PluginManager
      */
     private $extensionPoints;
 
+    /**
+     * @var PluginManager
+     */
+    private static $instance;
 
-    public function __construct()
+    /**
+     * @return PluginManager
+     */
+    public static function getInstance()
+    {
+        if(!is_null(self::$instance)) {
+            return self::$instance;
+        }
+
+        self::$instance = new PluginManager();
+
+        return self::$instance;
+    }
+
+
+    private function __construct()
     {
         $this->plugins = array();
         $this->extensionPoints = array(
@@ -51,7 +70,7 @@ class PluginManager
         if(!isset($this->extensionPoints[$extensionPoint])) {
             throw new \Exception('無効な拡張ポイントが指定されました。: ' . $extensionPoint);
         }
-        $this->extensionPoints[$extensionPoint] = $plugin;
+        $this->extensionPoints[$extensionPoint][] = $plugin;
     }
 
 

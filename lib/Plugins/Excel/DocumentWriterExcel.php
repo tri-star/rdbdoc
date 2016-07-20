@@ -12,6 +12,11 @@ use PHPExcel_Worksheet;
 class DocumentWriterExcel implements DocumentWriterPluginInterface
 {
 
+    public function getWriterName()
+    {
+        return 'xlsx';
+    }
+
     public function write(OutputConfig $outputConfig, DataBase $dataBase)
     {
         $excel = new \PHPExcel();

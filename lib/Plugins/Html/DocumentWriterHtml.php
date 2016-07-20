@@ -25,6 +25,12 @@ class DocumentWriterHtml implements DocumentWriterPluginInterface
      */
     private $writer;
 
+
+    public function getWriterName()
+    {
+        return 'html';
+    }
+
     public function write(OutputConfig $outputConfig, DataBase $dataBase)
     {
 
