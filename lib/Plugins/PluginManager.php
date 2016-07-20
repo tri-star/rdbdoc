@@ -47,6 +47,38 @@ class PluginManager
     }
 
 
+    public function loadPlugins()
+    {
+        //TODO: プラグインのロード先を追加／変更可能にする
+        //プラグインのディレクトリ(プロジェクト直下のplugins)
+        $pluginDir = dirname(dirname(__DIR__)) . '/plugins';
+        if(!is_dir($pluginDir)) {
+            throw new \Exception("プラグインディレクトリ: {$pluginDir} が存在しません");
+        }
+
+        $iterator = new \DirectoryIterator($pluginDir);
+        foreach($iterator as $dir) {
+
+            if(in_array($dir, array('.', '..'))) {
+                continue;
+            }
+
+            $installScript = $pluginDir . '/' . $dir . '/install.php';
+            if(!is_file($installScript)) {
+                continue;
+            }
+
+            $plugin = require($installScript);
+            if(!$plugin instanceof PluginInterface) {
+                throw new \Exception('無効なプラグインがロードされました。 dir:' . $dir);
+            }
+
+            $this->register($plugin);
+        }
+
+    }
+
+
     public function defineExtensionPoint($name)
     {
         if(isset($this->extensionPoints[$name])) {

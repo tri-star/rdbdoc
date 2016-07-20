@@ -1,16 +1,11 @@
 <?php
 
-namespace Dbdg\Plugins\Html;
-
-
 use Dbdg\Models\DataBase;
 use Dbdg\Models\OutputConfig;
 use Dbdg\Utils\StreamWriters\StreamWriterFile;
 use Dbdg\Utils\StreamWriters\StreamWriterInterface;
 use Dbdg\Plugins\DocumentWriterPluginInterface;
 use Dbdg\Plugins\PluginManager;
-use Twig_Environment;
-use Twig_Loader_Filesystem;
 
 class DocumentWriterHtml implements DocumentWriterPluginInterface
 {
@@ -26,11 +21,21 @@ class DocumentWriterHtml implements DocumentWriterPluginInterface
     private $writer;
 
 
+    /**
+     * generate:document の--formatで指定する際の名前を返します。
+     * @return string
+     */
     public function getWriterName()
     {
         return 'html';
     }
 
+
+    /**
+     * ドキュメントの生成を実行します。
+     * @param OutputConfig $outputConfig
+     * @param DataBase $dataBase
+     */
     public function write(OutputConfig $outputConfig, DataBase $dataBase)
     {
 
@@ -42,29 +47,30 @@ class DocumentWriterHtml implements DocumentWriterPluginInterface
         $this->twig = new Twig_Environment($loader, array(
         ));
 
-        //データベースの情報(見出しページ)
         $this->renderDatabase($dataBase);
-
-        //目次
-        //テーブル一覧
-
-        //各テーブル
-        //テーブル説明
-        //メタ情報
-        //カラム一覧
-
-        //各カラム
-        // * 名前
-        // * データ型
-        // * デフォルト値
-        // * 説明
-
-
     }
 
+    /**
+     * このプラグインの名称を返します。
+     * @return string
+     */
     public function getName()
     {
         return 'document-writer-html';
+    }
+
+
+    /**
+     * プラグインのインストールを行います。
+     *
+     * PluginManagerのExtensionPointへのフックなどを行います。
+     *
+     * @param PluginManager $manager
+     * @throws Exception
+     */
+    public function installPlugin(PluginManager $manager)
+    {
+        $manager->registerExtensionPoint('document_writer', $this);
     }
 
 
@@ -76,8 +82,4 @@ class DocumentWriterHtml implements DocumentWriterPluginInterface
         $this->writer->write($html);
     }
 
-    public function installPlugin(PluginManager $manager)
-    {
-        $manager->registerExtensionPoint('document_writer', $this);
-    }
 }

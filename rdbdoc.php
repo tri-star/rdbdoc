@@ -10,8 +10,7 @@ use Symfony\Component\Console\Application;
 
 
 $pluginManager = PluginManager::getInstance();
-$pluginManager->register(new \Dbdg\Plugins\Html\DocumentWriterHtml());
-$pluginManager->register(new \Dbdg\Plugins\Excel\DocumentWriterExcel());
+$pluginManager->loadPlugins();
 
 $application = new Application();
 $application->add(new CreateTemplateCommand());

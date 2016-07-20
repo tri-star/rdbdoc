@@ -1,22 +1,28 @@
 <?php
 
-namespace Dbdg\Plugins\Excel;
-
 use Dbdg\Models\DataBase;
 use Dbdg\Models\OutputConfig;
 use Dbdg\Models\Table;
 use Dbdg\Plugins\DocumentWriterPluginInterface;
 use Dbdg\Plugins\PluginManager;
-use PHPExcel_Worksheet;
 
 class DocumentWriterExcel implements DocumentWriterPluginInterface
 {
 
+    /**
+     * generate:document の--formatで指定する際の名前を返します。
+     * @return string
+     */
     public function getWriterName()
     {
         return 'xlsx';
     }
 
+    /**
+     * ドキュメントの生成を実行します。
+     * @param OutputConfig $outputConfig
+     * @param DataBase $dataBase
+     */
     public function write(OutputConfig $outputConfig, DataBase $dataBase)
     {
         $excel = new \PHPExcel();
@@ -53,11 +59,23 @@ class DocumentWriterExcel implements DocumentWriterPluginInterface
         $writer->save($outputPath);
     }
 
+    /**
+     * このプラグインの名称を返します。
+     * @return string
+     */
     public function getName()
     {
         return 'document-writer-excel';
     }
 
+    /**
+     * プラグインのインストールを行います。
+     *
+     * PluginManagerのExtensionPointへのフックなどを行います。
+     *
+     * @param PluginManager $manager
+     * @throws Exception
+     */
     public function installPlugin(PluginManager $manager)
     {
         $manager->registerExtensionPoint('document_writer', $this);
