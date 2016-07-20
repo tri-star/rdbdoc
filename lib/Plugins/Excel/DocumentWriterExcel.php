@@ -41,7 +41,7 @@ class DocumentWriterExcel implements DocumentWriterPluginInterface
 
         $outputDir = $outputConfig->getOutputDir();
         if(!is_dir($outputDir)) {
-            if(!mkdir($outputDir, true, 0775)) {
+            if(!mkdir($outputDir, 0775, true)) {
                 throw new \Exception('ディレクトリの生成に失敗しました。' . $outputDir);
             }
         }
