@@ -7,9 +7,8 @@ namespace Dbdg\UseCases;
 use Dbdg\Adapters\Connectors\ConnectorInterface;
 use Dbdg\Models\DataBase;
 use Dbdg\Adapters\TemplateWriters\TemplateWriterInterface;
-use Dbdg\Adapters\TemplateWriters\TemplateWriterYaml;
 
-class CreateTemplate
+class GenerateTemplate
 {
 
     public function __construct()
@@ -17,7 +16,7 @@ class CreateTemplate
 
     }
 
-    public function createTemplate($dbName, ConnectorInterface $connector, TemplateWriterInterface $templateWriter)
+    public function generate($dbName, ConnectorInterface $connector, TemplateWriterInterface $templateWriter)
     {
         $dataBase = new DataBase();
         $dataBase->setName($dbName);

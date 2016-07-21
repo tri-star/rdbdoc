@@ -7,7 +7,7 @@ use Dbdg\Adapters\Connectors\ConnectorMysql;
 use Dbdg\Models\ConnectionConfig;
 use Dbdg\Utils\StreamWriters\StreamWriterFile;
 use Dbdg\Adapters\TemplateWriters\TemplateWriterYaml;
-use Dbdg\UseCases\CreateTemplate;
+use Dbdg\UseCases\GenerateTemplate;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -59,8 +59,8 @@ class GenerateTemplateCommand extends Command
         $templateWriter = new TemplateWriterYaml();
         $templateWriter->init($streamWriter);
 
-        $createTemplate = new CreateTemplate();
-        $createTemplate->createTemplate($dbName, $connector, $templateWriter);
+        $createTemplate = new GenerateTemplate();
+        $createTemplate->generate($dbName, $connector, $templateWriter);
     }
 
 }
