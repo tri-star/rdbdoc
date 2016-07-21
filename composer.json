@@ -13,7 +13,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Dbdg\\": "lib/"
+            "Dbdg\\": "lib/",
+            "Dbdg\\Test\\": "tests/lib/",
         }
     }
 }
