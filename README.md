@@ -15,9 +15,8 @@ rdbdocはRDBMSのスキーマのメタデータと、各テーブル/カラム�
 
 ドキュメントの生成形式は現時点では以下の2形式のみですが、プラグインを追加することで拡張が可能です。
 
-* [HTML(シングルページ)](./examples/01-single-page.html)
-* [Excelブック(単一ファイル)](./examples/02-single-excel-book.xlsx)
-
+* [HTML(シングルページ)](http://static.urban-theory.net/projects/rdbdoc/examples/01-single-page.html)
+* [Excelブック(単一ファイル)](http://static.urban-theory.net/projects/rdbdoc/examples/02-single-excel-book.xlsx)
 
 ## 基本的な使用方法
 
@@ -48,7 +47,7 @@ database:
 
 * このファイルのname, descキーにテーブルやカラムの論理名、説明(改行可)を記入していきます
 * コマンドでは、各カラムの説明はインラインで生成されますが、[YAMLの複数行の構文](https://en.wikipedia.org/wiki/YAML#Block_literals) などで複数行の説明文も記述可能です
-* [説明の記入例](./examples/example.yaml)
+* [説明の記入例](http://static.urban-theory.net/projects/rdbdoc/examples/example.yaml)
 
 
 ### ドキュメントの生成
@@ -60,8 +59,8 @@ php rdbdoc.php generate:document --user=root --input=schema.yaml ./docs
 ```
 
 ### 生成されるドキュメントの例
-* [HTML(シングルページ)](./examples/01-single-page.html)
-* [Excelブック(単一ファイル)](./examples/02-single-excel-book.xlsx)
+* [HTML(シングルページ)](http://static.urban-theory.net/projects/rdbdoc/examples/01-single-page.html)
+* [Excelブック(単一ファイル)](http://static.urban-theory.net/projects/rdbdoc/examples/02-single-excel-book.xlsx)
 
 
 ## その他の使用方法
