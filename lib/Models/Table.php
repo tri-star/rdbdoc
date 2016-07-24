@@ -122,4 +122,15 @@ class Table
 
     }
 
+
+    public function isColumnExists($name)
+    {
+        foreach($this->columns as $column) {
+            if($column->getName() == $name) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

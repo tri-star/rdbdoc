@@ -78,4 +78,15 @@ class DataBase
             $table->mergeDescription($otherTable);
         }
     }
+
+
+    public function isTableExists($name)
+    {
+        foreach($this->tables as $table) {
+            if($table->getName() == $name) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
