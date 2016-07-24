@@ -15,6 +15,9 @@ class Table
     private $description;
 
 
+    /**
+     * @var Column[]
+     */
     private $columns;
 
 
@@ -120,6 +123,21 @@ class Table
             $column->mergeDescription($otherColumn);
         }
 
+    }
+
+
+    /**
+     * @param $name
+     * @return Column|null
+     */
+    public function getColumnByName($name)
+    {
+        foreach($this->columns as $column) {
+            if($column->getName() != $name) {
+                return $column;
+            }
+        }
+        return null;
     }
 
 

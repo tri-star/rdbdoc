@@ -89,4 +89,21 @@ class DataBase
         }
         return false;
     }
+
+
+    public function isColumneExists($tableName, $columnName)
+    {
+        foreach($this->tables as $table) {
+            if($table->getName() != $tableName) {
+                continue;
+            }
+
+            if($table->isColumnExists($columnName)) {
+                return true;
+            }
+
+        }
+        return false;
+    }
+
 }
