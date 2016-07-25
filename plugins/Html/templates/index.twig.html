@@ -27,20 +27,6 @@
 
 <h1>テーブル定義書</h1>
 
-<h2>目次</h2>
-
-<ul>
-    <li><a href="#db-desc">データベース情報</a></li>
-    <li>
-        <a href="#db-desc">テーブル一覧</a>
-        <ul>
-            {% for table in db.getTables() %}
-            <li><a href="#table-{{ table.getName() }}">{{ table.getName() }}</a></li>
-            {% endfor %}
-        </ul>
-    </li>
-</ul>
-
 <div class="row">
     <h2 id="db-desc">データベース情報</h2>
 
