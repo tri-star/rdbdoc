@@ -151,4 +151,14 @@ class Table
         return false;
     }
 
+    public function isColumnDocumented($name)
+    {
+        foreach($this->columns as $column) {
+            if($column->getName() == $name && $column->getLogicalName() != '') {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

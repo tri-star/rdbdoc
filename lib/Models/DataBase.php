@@ -106,4 +106,32 @@ class DataBase
         return false;
     }
 
+
+    public function isTableDocumented($name)
+    {
+        foreach($this->tables as $table) {
+            if($table->getName() == $name && $table->getLogicalName() != '') {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public function isColumneDocumented($tableName, $columnName)
+    {
+        foreach($this->tables as $table) {
+            if($table->getName() != $tableName) {
+                continue;
+            }
+
+            if($table->isColumnDocumented($columnName)) {
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+
 }

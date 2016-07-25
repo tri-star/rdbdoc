@@ -41,14 +41,14 @@ class ListDifference
         //TODO: 複数種類のフォーマットをサポートする
 
         //DB側にのみ存在するテーブル、カラム情報を列挙する
-        $tablesOnlyOnRealDataBase = $this->listTablesOnlyOnBaseDataBase($realDataBase, $templateDefinition);
-        $columnsOnlyOnRealDataBase = $this->listColumnsOnlyOnBaseDataBase($realDataBase, $templateDefinition);
-        $streamWriter->write("tables_only_on_real_database:\n");
-        foreach($tablesOnlyOnRealDataBase as $tableName) {
+        $tablesNotDocumented = $this->listTablesNotDocumented($realDataBase, $templateDefinition);
+        $columnsNotDocumented = $this->listColumnsNotDocumented($realDataBase, $templateDefinition);
+        $streamWriter->write("tables_not_documented:\n");
+        foreach($tablesNotDocumented as $tableName) {
             $streamWriter->write("    - {$tableName}\n");
         }
-        $streamWriter->write("columns_only_on_real_database:\n");
-        foreach($columnsOnlyOnRealDataBase as $columnName) {
+        $streamWriter->write("columns_not_documented:\n");
+        foreach($columnsNotDocumented as $columnName) {
             $streamWriter->write("    - {$columnName}\n");
         }
 
@@ -91,6 +91,39 @@ class ListDifference
             foreach($table->getColumns() as $column) {
                 $columnName = $column->getName();
                 if(!$otherDataBase->isColumneExists($tableName, $columnName)) {
+                    $onlyOnDataBaseList[] = "{$tableName}.{$columnName}";
+                }
+            }
+        }
+
+        return $onlyOnDataBaseList;
+    }
+
+
+    private function listTablesNotDocumented(DataBase $baseDataBase, DataBase $otherDataBase)
+    {
+        $onlyOnDataBaseList = array();
+        foreach($baseDataBase->getTables() as $table) {
+            $tableName = $table->getName();
+            if(!$otherDataBase->isTableDocumented($tableName)) {
+                $onlyOnDataBaseList[] = $tableName;
+            }
+        }
+
+        return $onlyOnDataBaseList;
+    }
+
+    private function listColumnsNotDocumented(DataBase $baseDataBase, DataBase $otherDataBase)
+    {
+        $onlyOnDataBaseList = array();
+        foreach($baseDataBase->getTables() as $table) {
+            $tableName = $table->getName();
+            if(!$otherDataBase->isTableDocumented($tableName)) {
+                continue;
+            }
+            foreach($table->getColumns() as $column) {
+                $columnName = $column->getName();
+                if(!$otherDataBase->isColumneDocumented($tableName, $columnName)) {
                     $onlyOnDataBaseList[] = "{$tableName}.{$columnName}";
                 }
             }
