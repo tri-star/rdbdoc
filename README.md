@@ -54,7 +54,7 @@ database:
 以下のコマンドを実行すると、./docsディレクトリ配下にExcelのBook形式でドキュメントが生成されます。
 
 ```
-# root@127.0.0.1:3306 でMySQLに接続出来ると仮定します。
+# root@localhost:3306 でMySQLに接続出来ると仮定します。
 php rdbdoc.php generate:document --user=root --input=schema.yaml ./docs
 ```
 
@@ -65,12 +65,37 @@ php rdbdoc.php generate:document --user=root --input=schema.yaml ./docs
 
 ## その他の使用方法
 
+### DBとテンプレートファイル間の差分の確認
+まだドキュメンテーションの行われていないテーブル/カラムの確認や、
+テンプレート上にしか存在しないテーブル、カラムの確認は以下のコマンドで行います。
+
+(DB上にしか存在しないテーブル、テンプレート中で論理名の定義されていないテーブルが対象です)
+```
+# root@localhost:3306に接続
+php rdbdoc.php list:difference --user=root --input=schema.yaml
+```
+
+出力の例(現在はYAML形式での出力のみ)：
+
+```
+tables_not_documented:
+    - table_1
+columns_not_documented:
+    - table_2.id
+    - table_2.created
+    - table_2.updated
+tables_only_on_template_definition:
+columns_only_on_template_definition:
+    - table_3.age
+```
+
 ### カラム追加の反映
 以下のコマンドを実行すると、既存のスキーマ定義ファイルにDB側で行われた変更を反映することが可能です。
 
 (出力ファイル名を入力ファイルと同名にすることも可能です。この場合、内容は上書きされます)
 
 ```
+# root@localhost:3306に接続
 php rdbdoc.php update:template --user=root --input=schema.yaml schema-new.yaml
 ```
 
@@ -78,7 +103,7 @@ php rdbdoc.php update:template --user=root --input=schema.yaml schema-new.yaml
 --host, --portオプションで接続先ホスト、ポート番号を指定します。
 
 ```
-php rdbdoc.php generate:template --host=172.18.0.1 --port=13306 --user=root test schema.yaml
+php rdbdoc.php generate:template --host=172.18.0.2 --port=13306 --user=root test schema.yaml
 ```
 
 ### コマンド一覧の確認
