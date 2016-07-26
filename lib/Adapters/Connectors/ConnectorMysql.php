@@ -160,7 +160,7 @@ class ConnectorMysql implements ConnectorInterface
              . "  LEFT OUTER JOIN information_schema.KEY_COLUMN_USAGE key_usage ON (key_usage.TABLE_NAME=stat.TABLE_NAME AND key_usage.COLUMN_NAME=stat.COLUMN_NAME) "
              . "  LEFT OUTER JOIN information_schema.TABLE_CONSTRAINTS table_const ON (table_const.TABLE_NAME=stat.TABLE_NAME AND table_const.CONSTRAINT_NAME=key_usage.CONSTRAINT_NAME) "
              . "  LEFT OUTER JOIN information_schema.REFERENTIAL_CONSTRAINTS ref_const ON (ref_const.TABLE_NAME=stat.TABLE_NAME AND ref_const.CONSTRAINT_NAME=key_usage.CONSTRAINT_NAME) "
-             . " WHERE stat.TABLE_SCHEMA=:db_name stat.TABLE_NAME=:table_name "
+             . " WHERE stat.TABLE_SCHEMA=:db_name AND stat.TABLE_NAME=:table_name "
              . " ORDER BY stat.TABLE_NAME, stat.INDEX_NAME, key_usage.ORDINAL_POSITION"
         ;
 

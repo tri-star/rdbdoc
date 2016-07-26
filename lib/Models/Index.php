@@ -46,7 +46,7 @@ class Index
 
         $this->indexName = $this->getArrayValue($array, 'index_name', '');
         $this->columnNames = $this->getArrayValue($array, 'column_names', array());
-        $this->cardinality = $this->getArrayValue($array, 'cardinality', '');
+        $this->cardinality = $this->getArrayValue($array, 'cardinality', 0);
         $this->indexType = $this->getArrayValue($array, 'index_type', '');
         $this->constraintType = $this->getArrayValue($array, 'constraint_type', '');
         $this->referencedTableName = $this->getArrayValue($array, 'referenced_table_name', '');
@@ -67,6 +67,12 @@ class Index
     public function getColumnNames()
     {
         return $this->columnNames;
+    }
+
+
+    public function getCardinality()
+    {
+        return $this->cardinality;
     }
 
 
