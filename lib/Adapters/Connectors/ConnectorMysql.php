@@ -5,6 +5,7 @@ namespace Dbdg\Adapters\Connectors;
 
 use Dbdg\Models\Column;
 use Dbdg\Models\ConnectionConfig;
+use Dbdg\Models\Index;
 use Dbdg\Models\Table;
 
 class ConnectorMysql implements ConnectorInterface
@@ -141,6 +142,115 @@ class ConnectorMysql implements ConnectorInterface
     'EXTRA' => 'auto_increment',
     'PRIVILEGES' => 'select,insert,update,references',
     'COLUMN_COMMENT' => '',
+*/
+    }
+
+
+    public function getIndices($dataBaseName, $tableName)
+    {
+        //information_schema.STATISTICSからインデックスの情報、
+        //及び外部キー関連のテーブルからインデックスの情報を取得する。
+        //今のところ、外部キーは複数カラムに対応していない。
+
+        $sql = "SELECT stat.TABLE_SCHEMA, stat.TABLE_NAME, stat.INDEX_NAME, stat.COLUMN_NAME, stat.CARDINALITY, stat.INDEX_TYPE, "
+             . "       table_const.CONSTRAINT_TYPE, "
+             . "       ref_const.REFERENCED_TABLE_NAME, ref_const.UNIQUE_CONSTRAINT_SCHEMA, ref_const.UNIQUE_CONSTRAINT_NAME, "
+             . "       ref_const.MATCH_OPTION, ref_const.UPDATE_RULE, ref_const.DELETE_RULE "
+             . "  FROM information_schema.STATISTICS stat "
+             . "  LEFT OUTER JOIN information_schema.KEY_COLUMN_USAGE key_usage ON (key_usage.TABLE_NAME=stat.TABLE_NAME AND key_usage.COLUMN_NAME=stat.COLUMN_NAME) "
+             . "  LEFT OUTER JOIN information_schema.TABLE_CONSTRAINTS table_const ON (table_const.TABLE_NAME=stat.TABLE_NAME AND table_const.CONSTRAINT_NAME=key_usage.CONSTRAINT_NAME) "
+             . "  LEFT OUTER JOIN information_schema.REFERENTIAL_CONSTRAINTS ref_const ON (ref_const.TABLE_NAME=stat.TABLE_NAME AND ref_const.CONSTRAINT_NAME=key_usage.CONSTRAINT_NAME) "
+             . " WHERE stat.TABLE_SCHEMA=:db_name stat.TABLE_NAME=:table_name "
+             . " ORDER BY stat.TABLE_NAME, stat.INDEX_NAME, key_usage.ORDINAL_POSITION"
+        ;
+
+        $db = $this->getConnection();
+        $statement = $db->prepare($sql);
+        $statement->execute(array(
+            'db_name' => $dataBaseName,
+            'table_name' => $tableName
+        ));
+        $indexRows = $statement->fetchAll(\PDO::FETCH_ASSOC);
+
+        $tmpIndices = array();
+        foreach($indexRows as $row) {
+
+            //複数列カラムの場合、同じインデックス名が複数行存在するため、その点を考慮する
+            $indexName = $row['INDEX_NAME'];
+
+            if(isset($tmpIndices[$indexName])) {
+                $tmpIndices[$indexName]['column_names'][] = $row['COLUMN_NAME'];
+            } else {
+
+                $tmpIndices[$indexName] = array(
+                    'index_name'             => $indexName,
+                    'column_names'           => array($row['COLUMN_NAME']),
+                    'cardinality'            => $row['CARDINALITY'],
+                    'index_type'             => $row['INDEX_TYPE'],
+                    'constraint_type'        => $row['CONSTRAINT_TYPE'],
+                    'referenced_table_name'  => $row['REFERENCED_TABLE_NAME'],
+                    'unique_constraint_name' => $row['UNIQUE_CONSTRAINT_NAME'],
+                    'match_option'           => $row['MATCH_OPTION'],
+                    'update_rule'            => $row['UPDATE_RULE'],
+                    'delete_rule'            => $row['DELETE_RULE'],
+                );
+            }
+        }
+
+        $indices = array();
+        foreach($tmpIndices as $indexData) {
+            $index = new Index();
+            $index->initFromArray($indexData);
+            $indices[] = $index;
+        }
+        return $indices;
+/*
+[{
+  "TABLE_SCHEMA": "test",
+  "TABLE_NAME": "a",
+  "INDEX_NAME": "idx_name",
+  "COLUMN_NAME": "name",
+  "CARDINALITY": 0,
+  "INDEX_TYPE": "BTREE",
+  "CONSTRAINT_TYPE": null,
+  "REFERENCED_TABLE_NAME": null,
+  "UNIQUE_CONSTRAINT_SCHEMA": null,
+  "UNIQUE_CONSTRAINT_NAME": null,
+  "MATCH_OPTION": null,
+  "UPDATE_RULE": null,
+  "DELETE_RULE": null
+ },
+ {
+  "TABLE_SCHEMA": "test",
+  "TABLE_NAME": "comment",
+  "INDEX_NAME": "fk_user_id",
+  "COLUMN_NAME": "user_id",
+  "CARDINALITY": 0,
+  "INDEX_TYPE": "BTREE",
+  "CONSTRAINT_TYPE": "FOREIGN KEY",
+  "REFERENCED_TABLE_NAME": "a",
+  "UNIQUE_CONSTRAINT_SCHEMA": "test",
+  "UNIQUE_CONSTRAINT_NAME": "PRIMARY",
+  "MATCH_OPTION": "NONE",
+  "UPDATE_RULE": "RESTRICT",
+  "DELETE_RULE": "CASCADE"
+ },
+ {
+  "TABLE_SCHEMA": "test",
+  "TABLE_NAME": "comment",
+  "INDEX_NAME": "PRIMARY",
+  "COLUMN_NAME": "id",
+  "CARDINALITY": 0,
+  "INDEX_TYPE": "BTREE",
+  "CONSTRAINT_TYPE": "PRIMARY KEY",
+  "REFERENCED_TABLE_NAME": null,
+  "UNIQUE_CONSTRAINT_SCHEMA": null,
+  "UNIQUE_CONSTRAINT_NAME": null,
+  "MATCH_OPTION": null,
+  "UPDATE_RULE": null,
+  "DELETE_RULE": null
+ }
+]
 */
     }
 

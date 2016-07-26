@@ -52,4 +52,17 @@ class ConnectorStub implements ConnectorInterface
         }
         return array();
     }
+
+
+    public function getIndices($databaseName, $tableName)
+    {
+        foreach($this->dataBase->getTables() as $table) {
+
+            if($table->getName() != $tableName) {
+                continue;
+            }
+            return $table->getIndices();
+        }
+        return array();
+    }
 }

@@ -21,7 +21,10 @@ class Table
     private $columns;
 
 
-    private $indexes;
+    /**
+     * @var Index[]
+     */
+    private $indices;
 
 
     private $metaData;
@@ -33,7 +36,7 @@ class Table
         $this->comment = '';
         $this->description = '';
         $this->columns = array();
-        $this->indexes = array();
+        $this->indices = array();
         $this->metaData = array();
     }
 
@@ -101,7 +104,20 @@ class Table
 
     public function addColumn(Column $column) {
         $this->columns[] = $column;
-        //TODO: カラム順にソートする
+    }
+
+
+    /**
+     * @return Index[]
+     */
+    public function getIndices()
+    {
+        return $this->indices;
+    }
+
+    public function addIndex(Index $index)
+    {
+        $this->indices[] = $index;
     }
 
 
