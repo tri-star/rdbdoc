@@ -232,6 +232,49 @@ class DocumentWriterExcel implements DocumentWriterPluginInterface
         ));
 
 
+        //インデックス情報
+        $rowNo += 2;
+        $sheet->setCellValue('A' . $rowNo, 'メタ情報');
+        $sheet->getCell('A' . $rowNo)->getStyle()->getFont()->applyFromArray(array(
+            'bold' => true,
+            'size' => 12,
+        ));
+
+        $rowNo += 2;
+        $startRowNo = $rowNo;
+        $sheet->setCellValue('A' . $rowNo, 'インデックス名');
+        $sheet->setCellValue('B' . $rowNo, 'カラム');
+        $sheet->setCellValue('C' . $rowNo, 'カーディナリティ');
+        $sheet->setCellValue('D' . $rowNo, '種別');
+        $sheet->setCellValue('E' . $rowNo, '制約');
+        $sheet->setCellValue('F' . $rowNo, '外部キー制約');
+        $rowNo++;
+      foreach($table->getIndices() as $index) {
+            $sheet->setCellValue('A' . $rowNo, $index->getIndexName());
+            $sheet->setCellValue('B' . $rowNo, implode(', ', $index->getColumnNames()));
+            $sheet->setCellValue('C' . $rowNo, $index->getCardinality());
+            $sheet->setCellValue('D' . $rowNo, $index->getIndexType());
+            $sheet->setCellValue('E' . $rowNo, $index->getConstraintType());
+            if($index->getConstraintType() == 'FOREIGN KEY') {
+              $foreignKeyInfo  = '参照インデックス: ' . $index->getReferencedTableName() . '.' . $index->getUniqueConstraintName() . "\n";
+              $foreignKeyInfo .= '更新ルール: ' . $index->getUpdateRule() . "\n";
+              $foreignKeyInfo .= '削除ルール: ' . $index->getDeleteRule() . "\n";
+              $sheet->setCellValue('F' . $rowNo, $foreignKeyInfo);
+            }
+            $rowNo++;
+        }
+        $sheet->getStyle('A' . $startRowNo . ':F'.($rowNo-1))->getBorders()->applyFromArray(array(
+            'allborders' => array(
+                'style' => \PHPExcel_Style_Border::BORDER_THIN,
+            )
+        ));
+        $sheet->getStyle('A' . $startRowNo . ':F' . $startRowNo)->getFill()->applyFromArray(array(
+            'style' => \PHPExcel_Style_Fill::FILL_SOLID,
+            'color' => array(
+                'rgb' => 'C5C6F0',
+            )
+        ));
+
         //メタ情報
         $rowNo += 2;
         $sheet->setCellValue('A' . $rowNo, 'メタ情報');
