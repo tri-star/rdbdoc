@@ -19,7 +19,6 @@
         padding-top: 5px;
         margin-top: 20px;
         margin-bottom: 15px;
-/*        background-color: #d9edf7;*/
         background-image: linear-gradient(145deg, #d9edf7, #d9edf7, #C0D4DE);
         box-shadow: 3px 3px 5px #DFDFDF;
     }
@@ -133,6 +132,34 @@
         {% endfor %}
     </table>
 
+
+    <h4><i class="fa fa-square" aria-hidden="true"></i>インデックス情報</h4>
+    <table class="table table-bordered">
+        <tr class="active">
+            <th style="width: 150px;">インデックス名</th>
+            <th style="width: 150px;">カラム</th>
+            <th style="width: 80px;">カーディナリティ</th>
+            <th style="width: 80px;">種別</th>
+            <th style="width: 80px;">制約</th>
+            <th style="width: 150px;">外部キー制約</th>
+        </tr>
+        {% for index in table.getIndices() %}
+        <tr>
+            <td>{{ index.getIndexName() }}</td>
+            <td>{{ index.getColumnNames() | join(',') }}</td>
+            <td>{{ index.getCardinality() }}</td>
+            <td>{{ index.getIndexType() }}</td>
+            <td>{{ index.getConstraintType() }}</td>
+            <td>
+                {% if index.getConstraintType() == 'FOREIGN KEY' %}
+                    <p>参照インデックス: {{ index.getReferencedTableName() }}.{{ index.getUniqueConstraintName() }}</p>
+                    <p>更新ルール: {{ index.getUpdateRule() }}</p>
+                    <p>削除ルール: {{ index.getDeleteRule() }}</p>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
 
     <h4><i class="fa fa-square" aria-hidden="true"></i>メタ情報</h4>
     <table class="table table-bordered">

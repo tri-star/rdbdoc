@@ -31,6 +31,12 @@ class GenerateDocument
             foreach ($columns as $column) {
                 $table->addColumn($column);
             }
+
+            $indices = $connector->getIndices($dataBase->getName(), $table->getName());
+            foreach($indices as $index) {
+                $table->addIndex($index);
+            }
+
             $dataBase->addTable($table);
         }
         $dataBase->mergeDescription($originalDataBase);

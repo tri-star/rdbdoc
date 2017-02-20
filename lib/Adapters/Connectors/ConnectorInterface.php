@@ -5,6 +5,7 @@ namespace Dbdg\Adapters\Connectors;
 
 use Dbdg\Models\Column;
 use Dbdg\Models\ConnectionConfig;
+use Dbdg\Models\Index;
 use Dbdg\Models\Table;
 
 interface ConnectorInterface {
@@ -25,5 +26,13 @@ interface ConnectorInterface {
      * @return Column[]
      */
     public function getColumns($databaseName, $tableName);
+
+
+    /**
+     * @param string $databaseName
+     * @param string $tableName
+     * @return Index[]
+     */
+    public function getIndices($databaseName, $tableName);
 
 }

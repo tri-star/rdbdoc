@@ -94,7 +94,7 @@ class DocumentWriterExcel implements DocumentWriterPluginInterface
         $sheet->setCellValue('A1', 'テーブル一覧');
         $sheet->getCell('A1')->getStyle()->getFont()->applyFromArray(array(
             'bold' => true,
-            'size' => 20,
+            'size' => 16,
         ));
         $sheet->getRowDimension(1)->setRowHeight(25);
 
@@ -165,7 +165,7 @@ class DocumentWriterExcel implements DocumentWriterPluginInterface
         $sheet->setCellValue('A1', 'テーブル情報');
         $sheet->getCell('A1')->getStyle()->getFont()->applyFromArray(array(
             'bold' => true,
-            'size' => 20,
+            'size' => 12,
         ));
 
         $sheet->setCellValue('A3', 'テーブル名');
@@ -187,7 +187,7 @@ class DocumentWriterExcel implements DocumentWriterPluginInterface
         $sheet->getStyle('A3:A5')->getFill()->applyFromArray(array(
             'style' => \PHPExcel_Style_Fill::FILL_SOLID,
             'color' => array(
-                'rgb' => 'd9edf7',
+                'rgb' => 'FF0000',  //d9edf7
             )
         ));
 
@@ -195,7 +195,7 @@ class DocumentWriterExcel implements DocumentWriterPluginInterface
         $sheet->setCellValue('A8', 'カラム一覧');
         $sheet->getCell('A8')->getStyle()->getFont()->applyFromArray(array(
             'bold' => true,
-            'size' => 20,
+            'size' => 12,
         ));
         $sheet->setCellValue('A10', 'No');
         $sheet->setCellValue('B10', 'カラム名');
@@ -218,6 +218,7 @@ class DocumentWriterExcel implements DocumentWriterPluginInterface
             $sheet->getRowDimension($rowNo)->setRowHeight(-1);
             $rowNo++;
         }
+
         $sheet->getStyle('A10:F'.($rowNo-1))->getBorders()->applyFromArray(array(
             'allborders' => array(
                 'style' => \PHPExcel_Style_Border::BORDER_THIN,
@@ -226,13 +227,92 @@ class DocumentWriterExcel implements DocumentWriterPluginInterface
         $sheet->getStyle('A10:F10')->getFill()->applyFromArray(array(
             'style' => \PHPExcel_Style_Fill::FILL_SOLID,
             'color' => array(
-                'rgb' => 'd9edf7',
+                'rgb' => 'C5C6F0',
             )
         ));
 
+
+        //インデックス情報
+        $rowNo += 2;
+        $sheet->setCellValue('A' . $rowNo, 'メタ情報');
+        $sheet->getCell('A' . $rowNo)->getStyle()->getFont()->applyFromArray(array(
+            'bold' => true,
+            'size' => 12,
+        ));
+
+        $rowNo += 2;
+        $startRowNo = $rowNo;
+        $sheet->setCellValue('A' . $rowNo, 'インデックス名');
+        $sheet->setCellValue('B' . $rowNo, 'カラム');
+        $sheet->setCellValue('C' . $rowNo, 'カーディナリティ');
+        $sheet->setCellValue('D' . $rowNo, '種別');
+        $sheet->setCellValue('E' . $rowNo, '制約');
+        $sheet->setCellValue('F' . $rowNo, '外部キー制約');
+        $rowNo++;
+      foreach($table->getIndices() as $index) {
+            $sheet->setCellValue('A' . $rowNo, $index->getIndexName());
+            $sheet->setCellValue('B' . $rowNo, implode(', ', $index->getColumnNames()));
+            $sheet->setCellValue('C' . $rowNo, $index->getCardinality());
+            $sheet->setCellValue('D' . $rowNo, $index->getIndexType());
+            $sheet->setCellValue('E' . $rowNo, $index->getConstraintType());
+            if($index->getConstraintType() == 'FOREIGN KEY') {
+              $foreignKeyInfo  = '参照インデックス: ' . $index->getReferencedTableName() . '.' . $index->getUniqueConstraintName() . "\n";
+              $foreignKeyInfo .= '更新ルール: ' . $index->getUpdateRule() . "\n";
+              $foreignKeyInfo .= '削除ルール: ' . $index->getDeleteRule() . "\n";
+              $sheet->setCellValue('F' . $rowNo, $foreignKeyInfo);
+            }
+            $rowNo++;
+        }
+        $sheet->getStyle('A' . $startRowNo . ':F'.($rowNo-1))->getBorders()->applyFromArray(array(
+            'allborders' => array(
+                'style' => \PHPExcel_Style_Border::BORDER_THIN,
+            )
+        ));
+        $sheet->getStyle('A' . $startRowNo . ':F' . $startRowNo)->getFill()->applyFromArray(array(
+            'style' => \PHPExcel_Style_Fill::FILL_SOLID,
+            'color' => array(
+                'rgb' => 'C5C6F0',
+            )
+        ));
+
+        //メタ情報
+        $rowNo += 2;
+        $sheet->setCellValue('A' . $rowNo, 'メタ情報');
+        $sheet->getCell('A' . $rowNo)->getStyle()->getFont()->applyFromArray(array(
+            'bold' => true,
+            'size' => 12,
+        ));
+
+        $rowNo += 2;
+        $startRowNo = $rowNo;
+        $sheet->setCellValue('A' . $rowNo, 'キー');
+        $sheet->setCellValue('B' . $rowNo, '値');
+        $rowNo++;
+        foreach($table->getMetaData() as $key=>$value) {
+            $sheet->setCellValue('A' . $rowNo, $key);
+            $sheet->setCellValue('B' . $rowNo, $value);
+            $rowNo++;
+        }
+        $sheet->getStyle('A' . $startRowNo . ':B'.($rowNo-1))->getBorders()->applyFromArray(array(
+            'allborders' => array(
+                'style' => \PHPExcel_Style_Border::BORDER_THIN,
+            )
+        ));
+        $sheet->getStyle('A' . $startRowNo . ':F' . $startRowNo)->getFill()->applyFromArray(array(
+            'style' => \PHPExcel_Style_Fill::FILL_SOLID,
+            'color' => array(
+                'rgb' => 'C5C6F0',
+            )
+        ));
+
+        $sheet->getStyle('A1:F'.$rowNo)->getAlignment()->applyFromArray(array(
+            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_LEFT,
+            'vertical'   => PHPExcel_Style_Alignment::VERTICAL_TOP,
+        ));
+
         $sheet->getColumnDimension('A')->setWidth(18);
-        $sheet->getRowDimension(1)->setRowHeight(25);
-        $sheet->getRowDimension(8)->setRowHeight(25);
+        $sheet->getRowDimension(1)->setRowHeight(16);
+        $sheet->getRowDimension(8)->setRowHeight(16);
         $sheet->getColumnDimension('B')->setWidth(25);
         $sheet->getColumnDimension('C')->setWidth(25);
         $sheet->getColumnDimension('D')->setWidth(18);
